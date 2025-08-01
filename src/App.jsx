@@ -6,6 +6,7 @@ import Body from "./Body";
 import Login from "./Login";
 import Profile from "./Profile";
 import appStore from "./utils/appstore";
+import Feed from "./Feed";
 
 function App() {
 
@@ -15,7 +16,8 @@ function App() {
     <Provider store={appStore}>
       <BrowserRouter basename="/">
           <Routes>
-               <Route path="/" element={<Body/>}>
+                     <Route path="/" element={<Body/>}>
+                      <Route path="/" element={<Feed/>}/>
                       <Route path="/login" element={<Login/>}/>
                       <Route path="/profile" element={<Profile/>}/>
                </Route>
