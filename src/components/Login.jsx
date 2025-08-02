@@ -9,25 +9,27 @@ const Login = () => {
 
     const [emailId,setEmailId] = useState("Rajesh@helo.com");
     const [password,setPassword] = useState("Rajesh@123");
+    const [error,setError] = useState("");
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogin = async () => {
           try {
-             const res = await axios.post(BASE_URL+"/login",
-              {
-                emailId,
-                password
-            },
-            {withCredentials:true}
-        );
-        //console.log(res.data); 
-        dispatch(addUser(res.data));
-        navigate("/");
-          }
+              const res = await axios.post(BASE_URL+"/login",
+                {
+                  emailId,
+                  password
+              },
+              {withCredentials:true}
+              );
+              console.log(res.data); 
+              dispatch(addUser(res.data));
+              navigate("/");
+             }
            catch (err) {
-            console.error(err);
+            setError(err?.response?.data || "Something went wrong");
+            
           }
     };
 
@@ -78,24 +80,18 @@ const Login = () => {
                             </g>
                         </svg>
                         <input
-                            type="password"
+                           // type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             placeholder="Password"
-                            // minlength="8"
-                            // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                            // title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
                         />
                         </label>
-                        <p className="validator-hint hidden">
-                        Must be more than 8 characters, including
-                        <br />At least one number <br />At least one lowercase letter <br />At least one uppercase letter
-                        </p>
                 
            </div>
+           <p className='text-red-500'>{error}</p>
             <div className="card-actions flex justify-center my-5">
-            <button className="btn btn-primary" onClick={handleLogin}>Login</button>
+                 <button className="btn btn-primary" onClick={handleLogin}>Login</button>
             </div>
         </div>
       </div>
