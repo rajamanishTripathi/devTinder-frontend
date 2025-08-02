@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import Usercard from './UserCard';
+import axios from 'axios';
+import {BASE_URL} from '../utils/constants'
+import { useDispatch } from 'react-redux';
 
 const EditProfile = ({user}) => {
 
@@ -9,10 +13,32 @@ const EditProfile = ({user}) => {
     const [gender, setGender] =useState(user.gender);
     const [skills, setSkills] =useState(user.skills);
     const [about, setAbout] =useState(user.about);
+    
+    const [error,setError] = useState("");
+    const [successMessage,setSuccessMessage] = useState(false);
+    const dispatch = useDispatch();
 
+    const saveProfile = async() => {
+        setError("");
+        setSuccessMessage(true);
+        try{
+             const res = await axios.patch(
+                BASE_URL+"/profile/edit",
+                {firstName, lastName, photourl ,age ,gender,skills,about},
+                {withCredentials:true}
+            );
+            dispatch(addUser(res?.data?.data));
+            
+
+        }
+        catch(err){
+             setError(err.response.data);
+        }
+        
+    }
   return (
-    <div>
-        <div className='flex justify-center my-10'>
+    <div className='flex justify-center my-10'>
+        <div className='flex justify-center mx-10'>
         <div className="card card-dash bg-base-300 w-96">
             <div className="card-body">
                 <h2 className="card-title flex justify-center">Edit Profile</h2>
@@ -86,13 +112,19 @@ const EditProfile = ({user}) => {
                         onChange={(e) => setAbout(e.target.value)} />
                     </label>
                 </div>
+                <p className='text-red-600'>{error}</p>
                 <div className="card-actions flex justify-center my-5">
-                    <button className="btn btn-primary" >Save</button>
+                    <button className="btn btn-primary" onClick={saveProfile}>Save</button>
                 </div>
+                 {successMessage && 
+                    <div className='text-green-700 my-5 flex justify-center text-2xl'>
+                    Saved Successfully
+                    </div>
+                 }
             </div>
         </div>
         </div>
-        <UserCard user={{}}/>
+        <Usercard user={{firstName, lastName, photourl ,age ,gender,skills,about}}/>
     </div>
   )
 };
