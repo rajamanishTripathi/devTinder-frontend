@@ -7,7 +7,7 @@ import UserCard from './UserCard';
 
 const Feed = () => {
   const feed = useSelector((store) => store.feed);
-  console.log(feed);
+//  console.log(feed);
   const dispatch = useDispatch();
 
 
@@ -27,9 +27,9 @@ const Feed = () => {
   }, []);
 
 
-  return (
-    <div>
-        <UserCard />
+  return feed && (
+    <div className='flex justify-center'>
+        <UserCard user={feed[0]}/>
     </div>
   );
 };
