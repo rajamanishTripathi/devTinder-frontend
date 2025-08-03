@@ -19,6 +19,13 @@ const EditProfile = ({user}) => {
     const [successMessage,setSuccessMessage] = useState(false);
     const dispatch = useDispatch();
 
+    const options = [
+            { label: "Male", value: "Male" },
+            { label: "Female", value: "Female" },
+            { label: "Others", value: "Others" },
+        ];
+    
+
     const saveProfile = async() => {
         setError("");
         
@@ -88,14 +95,29 @@ const EditProfile = ({user}) => {
                     </label>
                 </div>
                 <div>
-                    <div className='label'>
+                    {/* <div className='label'>
                         <span className='label-text'>Gender</span>
                     </div>
                     <label className="input validator">
                         <input type="text" 
                         value={gender}
                         onChange={(e) => setGender(e.target.value)} />
-                    </label>
+                    </label> */}
+                    <div className='label my-3'>
+                        <span className='label-text'>Gender :   </span>
+                    </div>
+                    <select
+                        value={gender}
+                        onChange = {(e) => {
+                            setGender(e.target.value);
+                        }}
+                    >{options.map(e =>
+                        <option 
+                        value={e.value} 
+                       // selected={e.value===gender?'selected':''}>{e.label}</option>)}
+                       >{e.label}</option>)}
+                    </select>
+                    
                 </div>
                 <div>
                     <div className='label'>
@@ -111,11 +133,9 @@ const EditProfile = ({user}) => {
                     <div className='label'>
                         <span className='label-text'>About</span>
                     </div>
-                    <label className="input validator">
-                        <input type="text" 
-                        value={about}
-                        onChange={(e) => setAbout(e.target.value)} />
-                    </label>
+                    <textarea className="textarea h-24" placeholder="Bio"value={about}
+                        onChange={(e) => setAbout(e.target.value)}></textarea>
+                   
                 </div>
                 <p className='text-red-600'>{error}</p>
                 <div className="card-actions flex justify-center my-5">
