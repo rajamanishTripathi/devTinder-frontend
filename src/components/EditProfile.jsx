@@ -3,6 +3,7 @@ import Usercard from './UserCard';
 import axios from 'axios';
 import {BASE_URL} from '../utils/constants'
 import { useDispatch } from 'react-redux';
+import {addUser } from '../utils/userSlice';
 
 const EditProfile = ({user}) => {
 
@@ -20,23 +21,27 @@ const EditProfile = ({user}) => {
 
     const saveProfile = async() => {
         setError("");
-        setSuccessMessage(true);
+        
         try{
              const res = await axios.patch(
                 BASE_URL+"/profile/edit",
                 {firstName, lastName, photourl ,age ,gender,skills,about},
                 {withCredentials:true}
             );
+            setSuccessMessage(true); // showing toast
+            setTimeout(() => {
+                setSuccessMessage(false);
+            },3000);
             dispatch(addUser(res?.data?.data));
-            
-
+            // success message should be here after dispatch not before
         }
         catch(err){
-             setError(err.response.data);
+           setError(err.response.data);
         }
         
     }
   return (
+    <>
     <div className='flex justify-center my-10'>
         <div className='flex justify-center mx-10'>
         <div className="card card-dash bg-base-300 w-96">
@@ -116,16 +121,17 @@ const EditProfile = ({user}) => {
                 <div className="card-actions flex justify-center my-5">
                     <button className="btn btn-primary" onClick={saveProfile}>Save</button>
                 </div>
-                 {successMessage && 
-                    <div className='text-green-700 my-5 flex justify-center text-2xl'>
-                    Saved Successfully
-                    </div>
-                 }
             </div>
         </div>
         </div>
         <Usercard user={{firstName, lastName, photourl ,age ,gender,skills,about}}/>
     </div>
+    {successMessage && (<div className="toast toast-top toast-center">
+        <div className="alert alert-success">
+            <span>Profile saved successfully.</span>
+        </div>
+    </div>)}
+    </>
   )
 };
 
