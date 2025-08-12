@@ -5,9 +5,12 @@ const userFeed = createSlice({
     initialState:null,
     reducers:{
         addFeed: (state,action) => action.payload,
-        removeFeed: (state,action) => null
+        removeUseFromFeed: (state,action) => {
+            const newFeed = state.filter((user) => user._id !== action.payload);
+            return newFeed;
+        }
     }
 });
 
-export const {addFeed,removeFeed} = userFeed.actions;
+export const {addFeed,removeUseFromFeed} = userFeed.actions;
 export default userFeed.reducer;
