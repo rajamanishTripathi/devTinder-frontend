@@ -6,10 +6,12 @@ import {BASE_URL} from '../utils/constants';
 import { useNavigate } from 'react-router';
 
 const Login = () => {
-
-    const [emailId,setEmailId] = useState("Rajesh@helo.com");
-    const [password,setPassword] = useState("Rajesh@123");
-    const [error,setError] = useState("");
+    const [firstName,setFirstName] = useState('');
+    const [lastName,setLastName] = useState('');
+    const [isloggedInForm,setIsLoggedInForm] = useState(false);
+    const [emailId,setEmailId] = useState('');
+    const [password,setPassword] = useState('');
+    const [error,setError] = useState('');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -37,24 +39,32 @@ const Login = () => {
     <div className='flex justify-center my-10'>
       <div className="card card-dash bg-base-300 w-96">
         <div className="card-body">
-            <h2 className="card-title flex justify-center">Login</h2>
-           <div>
+            <h2 className="card-title flex justify-center">{isloggedInForm ? 'Login':'Sign Up'}</h2>
+            <div>
+                   {!isloggedInForm && <>
+                    <div className='label'>
+                        <span className='label-text'>First Name</span>
+                    </div>
+                    <label className="input validator">
+                        <input type="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+                    </label>
+                    <div className="validator-hint hidden">Enter First Name</div>
+
+                    <div className='label'>
+                        <span className='label-text'>Last Name</span>
+                    </div>
+                    <label className="input validator">
+                       
+                        <input type="email" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+                    </label>
+                    <div className="validator-hint hidden">Enter Last Name</div>
+                     </>}
+
                     <div className='label'>
                         <span className='label-text'>Email ID</span>
                     </div>
                     <label className="input validator">
-                        <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <g
-                            strokeLinejoin="round"
-                            strokeLinecap="round"
-                            strokeWidth="2.5"
-                            fill="none"
-                            stroke="currentColor"
-                            >
-                            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                            </g>
-                        </svg>
+                       
                         <input type="email" value={emailId} onChange={(e) => setEmailId(e.target.value)}  placeholder="mail@site.com" required />
                     </label>
                     <div className="validator-hint hidden">Enter valid email address</div>
@@ -65,20 +75,6 @@ const Login = () => {
                         <span className='label-text'>Password</span>
                     </div>
                     <label className="input validator">
-                        <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <g
-                            strokeLinejoin="round"
-                            strokeLinecap="round"
-                            strokeWidth="2.5"
-                            fill="none"
-                            stroke="currentColor"
-                            >
-                            <path
-                                d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"
-                            ></path>
-                            <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
-                            </g>
-                        </svg>
                         <input
                            // type="password"
                             value={password}
@@ -86,14 +82,17 @@ const Login = () => {
                             required
                             placeholder="Password"
                         />
-                        </label>
+                    </label>
                 
-           </div>
-           <p className='text-red-500'>{error}</p>
-            <div className="card-actions flex justify-center my-5">
-                 <button className="btn btn-primary" onClick={handleLogin}>Login</button>
+                  </div>
+                <p className='text-red-500'>{error}</p>
+                  <div className="card-actions flex justify-center my-5">
+                      <button className="btn btn-primary" onClick={handleLogin}>{isloggedInForm ? "Login" : "Sign Up"}</button>
+                  </div>
+                <p className='m-auto cursor-pointer'
+                 onClick={() => setIsLoggedInForm(value => !value)}
+                 >{isloggedInForm ? "New User?  Sign Up":"Existing User?   Login"}</p>
             </div>
-        </div>
       </div>
     </div>
   )
