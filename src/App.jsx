@@ -9,6 +9,7 @@ import appStore from "./utils/appstore";
 import Feed from "./components/Feed";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
+import Payment from "./components/Payment";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
                   <Route path="/profile" element={<Profile/>}/>
                   <Route path="/connections" element={<Connections/>}/>
                   <Route path="/requests" element={<Requests/>}/>
+                  <Route path="/payment" element={<Payment/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
